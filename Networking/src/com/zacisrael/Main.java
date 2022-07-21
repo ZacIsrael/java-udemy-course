@@ -1,0 +1,70 @@
+package com.zacisrael;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.*;
+import java.util.List;
+import java.util.Map;
+
+public class Main {
+
+    public static void main(String[] args) {
+        /*
+
+        What's the Difference Between a URI and a URL?
+         A URI is an identifier of a specific resource. Like a page, or book, or a document.
+         A URL is special type of identifier that also tells you how to access it, such as HTTPs , FTP , etc.
+
+        URI components: scheme, scheme-specific part, authority, user-info, host, port, path, query, fragment
+
+        */
+
+        try {
+            // The following code will download the html code of the specified website in the url variable
+
+            URL url = new URL("https://api.flickr.com/services/feeds/photos_public.gne?tags=dogs");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            // returns an HttpURLConnection object
+
+            connection.setRequestMethod("GET");
+            /*
+           The GET method means retrieve whatever information (in the form of an entity) is identified by
+           the Request-URI. If the Request-URI refers to a data-producing process, it is the produced
+           data which shall be returned as the entity in the response and not the source text of the process,
+           unless that text happens to be the output of the process.
+            */
+
+            connection.setRequestProperty("User-Agent", "Chrome");
+            // tells a server what browser or what script we are using
+
+            connection.setReadTimeout(10000);
+            // application will wait 10 seconds for the server to respond
+
+            int responseCode = connection.getResponseCode();
+            System.out.println("Response code: " + responseCode);
+
+            if(responseCode != 200){
+                System.out.println("Error reading web page");
+                System.out.println(connection.getResponseMessage());
+                return;
+            }
+
+            BufferedReader inputReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+            String line;
+            while ((line = inputReader.readLine()) != null){
+                System.out.println(line);
+            }
+            inputReader.close();
+
+
+
+       } catch (MalformedURLException e){
+            System.out.println("MalformedURLException: " + e.getMessage());
+        } catch (IOException e){
+            System.out.println("IOException: " + e.getMessage());
+        }
+
+    }
+}

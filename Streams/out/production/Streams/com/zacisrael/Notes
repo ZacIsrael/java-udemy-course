@@ -1,0 +1,43 @@
+package com.zacisrael;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class Main {
+
+    // Stream: a set of object references, does not change the actual list
+
+    public static void main(String[] args) {
+        // write your code here
+        List<String> someBingoNumbers = Arrays.asList(
+                "N40", "N36",
+                "B12", "B6",
+                "G53", "G49", "G60", "G50", "g64",
+                "I26", "I17", "I29",
+                "071");
+
+        List<String> gNumbers = new ArrayList<>();
+// Using a stream
+        someBingoNumbers
+                .stream()
+                .map(String::toUpperCase)
+               // .map(s -> s.toUpperCase()) // this works as well, either lambda or ": :" like the line above
+                .filter(s-> s.startsWith("G"))
+                .sorted()
+                .forEach(System.out:: println);
+
+        // The long way
+//
+//        someBingoNumbers.forEach(number -> {
+//            if(number.toUpperCase().startsWith("G")){
+//                gNumbers.add(number);
+//               // System.out.println(number);
+//            }
+//        });
+//
+//        gNumbers.sort((s1,  s2)-> s1.compareTo(s2));
+//        gNumbers.forEach((String s) -> System.out.println(s));
+
+    }
+}

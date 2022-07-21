@@ -1,0 +1,60 @@
+package com.zacisrael;
+
+import java.sql.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+            // Try with resources closes statements and connections automatically
+//        try(Connection conn = DriverManager.getConnection("jdbc:sqlite:/Users/zacisrael/Desktop/UdemyJava/TestDB/testjava.db");
+//            Statement statement = conn.createStatement()){
+//
+//            statement.execute("CREATE TABLE contacts(name TEXT, phone INTEGER, email TEXT)");
+//            // creates a table named contacts that has 3 columns(name, phone, email)
+//        } catch (SQLException e){
+//            System.out.println("Something went wrong: " + e.getMessage());
+//        }
+
+        try{
+            Connection conn = DriverManager.getConnection("jdbc:sqlite:/Users/zacisrael/Desktop/UdemyJava/TestDB/testjava.db");
+           // conn.setAutoCommit(false);
+            // if this is set to false, the connection is no longer automatically committing changes to the database for us
+
+            Statement statement = conn.createStatement();
+            statement.execute("CREATE TABLE IF NOT EXISTS " +
+                    "contacts(name TEXT, phone INTEGER, email TEXT)");
+            // creates a table named contacts that has 3 columns(name, phone, email)
+
+//            statement.execute("INSERT INTO contacts(name, phone, email)" +
+//                    " VALUES('Zac', 2022885916, 'zac@email.com')");
+//            statement.execute("INSERT INTO contacts(name, phone, email)" +
+//                    " VALUES('Jane', 2028712930, 'jane@email.com')");
+//            statement.execute("INSERT INTO contacts(name, phone, email)" +
+//                    " VALUES('Joe', 3017502863, 'joe@email.com')");
+
+//            statement.execute("UPDATE  contacts SET phone=5566789 WHERE name ='Jane'");
+//            statement.execute("DELETE FROM contacts WHERE name='Joe'");
+
+//            statement.execute("SELECT * FROM contacts");
+//            ResultSet results = statement.getResultSet();
+            ResultSet results = statement.executeQuery("SELECT * FROM contacts");
+            // creates a set of each rows in the contacts table
+            while(results.next()){
+                // while there is another row, print the following line
+                System.out.println(results.getString("name") + "'s phone number is "
+                        + results.getInt("phone") + " and their email is "
+                + results.getString("email"));
+            }
+            results.close(); // close the set
+            statement.close();
+            conn.close();
+            // ALWAYS CLOSE STATEMENTS BEFORE YOU CLOSE THE CONNECTIONS
+
+        } catch (SQLException e){
+            System.out.println("Something went wrong: " + e.getMessage());
+        }
+
+
+    }
+}

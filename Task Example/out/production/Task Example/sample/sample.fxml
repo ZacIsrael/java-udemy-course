@@ -1,0 +1,21 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ProgressBar?>
+<GridPane fx:controller="sample.Controller"
+          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+    <Button text="Get Employee Names" onAction="#buttonPressed"
+    GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+    <!--Creates a button that says "Get Employee Names", when this button is pressed, the method-->
+    <!--buttonPressed() in the controller class will be executed-->
+    <ListView fx:id="listView" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    <!--Creates a white box under the button "Get Employee Names" where we will be able to store any list-->
+    <ProgressBar fx:id="progressBar" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+    <!--Creates a progress bar under the listView (a loading bar)-->
+    <Label fx:id="progressLabel" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+
+
+</GridPane>

@@ -1,0 +1,58 @@
+package com.zacisrael;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.*;
+import java.util.List;
+import java.util.Map;
+
+public class Main {
+
+    public static void main(String[] args) {
+        /*
+
+        What's the Difference Between a URI and a URL?
+         A URI is an identifier of a specific resource. Like a page, or book, or a document.
+         A URL is special type of identifier that also tells you how to access it, such as HTTPs , FTP , etc.
+
+        URI components: scheme, scheme-specific part, authority, user-info, host, port, path, query, fragment
+
+        */
+
+        try {
+            // The following code will download the html code of the specified website in the url variable
+
+            URL url = new URL("http://example.org");
+            URLConnection urlConnection = url.openConnection();
+            // returns an openConnection instance
+
+            urlConnection.setDoOutput(true);
+
+            urlConnection.connect();
+            // connects the connection to the url
+
+            BufferedReader inputStream = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+
+            Map<String, List<String>> headerFields = urlConnection.getHeaderFields();
+            // Retrieving the headers in the HTML of the website specified in the url variable
+
+            for(Map.Entry<String, List<String>> entry: headerFields.entrySet()){
+                // Iterating through them
+                String key = entry.getKey();
+                List<String> value = entry.getValue();
+                System.out.println("-----key = " + key);
+                for (String s: value) {
+                    System.out.println("value = " + value);
+                }
+            }
+
+       } catch (MalformedURLException e){
+            System.out.println("MalformedURLException: " + e.getMessage());
+        } catch (IOException e){
+            System.out.println("IOException: " + e.getMessage());
+        }
+
+    }
+}

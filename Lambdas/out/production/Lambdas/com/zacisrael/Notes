@@ -1,0 +1,150 @@
+public class Main {
+
+    public static void main(String[] args) {
+        // write your code here
+        new Thread(() -> {
+            System.out.println("Printing from the Runnable");
+            System.out.println("Line 2");
+            System.out.format("This is line %d\n", 3);
+        }).start();
+
+        Employee john = new Employee("John Doe", 30);
+        Employee tim = new Employee("Tim Buchalka", 21);
+        Employee jack = new Employee("Jack Hill", 40);
+        Employee snow = new Employee("Snow White", 22);
+
+        List<Employee> employees = new ArrayList<>();
+        employees.add(john);
+        employees.add(tim);
+        employees.add(jack);
+        employees.add(snow);
+
+//        Collections.sort(employees, new Comparator<Employee>() {
+//            @Override
+//            public int compare(Employee emp1, Employee emp2) {
+//                return emp1.getName().compareTo(emp2.getName());
+//            }
+//        });
+
+//        Collections.sort(employees,
+//                (emp, emp2) // Arguments passed: emp & emp2
+//                        -> emp.getName().compareTo(emp2.getName())); // the body
+//
+//        for (Employee emp : employees) {
+//            System.out.println(emp.getName());
+//        }
+
+//        String sillyString = doStringStuff(new UpperConcat() {
+//            @Override
+//            public String upperAndConcat(String s1, String s2) {
+//                return s1.toUpperCase() + s2.toUpperCase();
+//            }
+//        },
+//                employees.get(0).getName(), employees.get(1).getName());
+//        System.out.println(sillyString);
+
+        // Arguments: s1 & s2, uc will return the code after the "->"
+//        UpperConcat uc = (s1, s2) -> {
+//            String result = s1.toUpperCase() + s2.toUpperCase();
+//            return result;
+//        };
+//
+//        String sillyString = doStringStuff(uc, employees.get(0).getName(), employees.get(1).getName());
+//        System.out.println(sillyString);
+
+        AnotherClass anotherClass = new AnotherClass();
+        String s = anotherClass.doSomething();
+        System.out.println(s);
+
+    }
+
+    public final static String doStringStuff(UpperConcat uc, String s1, String s2) {
+        return uc.upperAndConcat(s1, s2);
+    }
+}
+
+class Employee {
+    private String name;
+    private int age;
+
+    public Employee(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+}
+
+interface UpperConcat {
+    public String upperAndConcat(String s1, String s2);
+}
+
+class AnotherClass {
+    public String doSomething(){
+
+//        UpperConcat uc = (s, s2) ->{
+//            System.out.println("The lamda expression's class name is " + getClass().getSimpleName());
+//            // A lambda expression is not a class, treated like a nested block of code and not an anonymous class
+//          String result = s.toUpperCase() + s2.toUpperCase();
+//          return result;
+//        };
+
+        // if you want to use a local variable defined outside of the anonymous class,
+        // we must declare the local variable as final
+
+//        final int i = 0;
+//        {
+//            UpperConcat uc = new UpperConcat() {
+//                @Override
+//                public String upperAndConcat(String s1, String s2) {
+//                    System.out.println("i (within anonymous class = " + i);
+//                    return s1.toUpperCase() + s2.toUpperCase();
+//                }
+//            };
+//
+//            System.out.println("The AnotherClass class's name is " + getClass().getSimpleName());
+//           // i++; // cannot increment an int variable that is declared as final
+//            System.out.println("i = " + i);
+//            return Main.doStringStuff(uc, "String1", "String2");
+//        }
+
+        int i = 0;
+        UpperConcat uc = (s1, s2) ->{
+            System.out.println("The lambda expression's class is "+ getClass().getSimpleName());
+            String result = s1.toUpperCase() + s2.toUpperCase();
+            return result;
+        };
+
+        System.out.println("The AnotherClass class's name is " + getClass().getSimpleName());
+        return Main.doStringStuff(uc, "String1", "String2");
+//
+//        System.out.println("The AnotherClass class's name is " + getClass().getSimpleName());
+//        return Main.doStringStuff(uc, "String1", "String2");
+
+//        System.out.println("The AnotherClass class's name is: " + getClass().getSimpleName());
+//        return Main.doStringStuff(new UpperConcat() {
+//            @Override
+//            public String upperAndConcat(String s1, String s2) {
+//                System.out.println("The AnotherClass class's name is: " + getClass().getSimpleName());
+//                // anonymous class does not have a name
+//                return s1.toUpperCase() + s2.toUpperCase();
+//            }
+//        }, "String1", "String2");
+    }
+}
+
+

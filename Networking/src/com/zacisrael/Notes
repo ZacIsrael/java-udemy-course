@@ -1,0 +1,94 @@
+package com.zacisrael;
+
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+
+public class Main {
+
+    public static void main(String[] args) {
+        /*
+
+        What's the Difference Between a URI and a URL?
+         A URI is an identifier of a specific resource. Like a page, or book, or a document.
+         A URL is special type of identifier that also tells you how to access it, such as HTTPs , FTP , etc.
+
+        URI components: scheme, scheme-specific part, authority, user-info, host, port, path, query, fragment
+
+        */
+
+   try {
+     // The following code will download the html code of the specified website in the url variable (reads the web page)
+
+            URL url = new URL("http://example.org");
+
+            BufferedReader inputStream = new BufferedReader(new InputStreamReader(url.openStream()));
+            // openStream() method opens a connection to the url,
+            // behind the scenes, it will do all of the low level tasks (creating a socket, etc.)
+
+            String line = "";
+            while (line != null){
+                line = inputStream.readLine();
+                // reading text from the input stream until there is no more text left
+                System.out.println(line);
+            }
+            inputStream.close();
+            // closing stream
+
+
+
+       } catch (IOException e){
+            System.out.println(e.getMessage());
+        }
+
+
+
+        try {
+//            URI uri = new URI("http://username:password@myserver.com:5000/catalogue/phones?os=android#samsung");
+//            URI uri = new URI("hello");
+            URI baseURI = new URI("http://username:password@mynewserver.com:5000");
+
+            URI uri1 = new URI("/catalogue/phones?os=android#samsung");
+            URI uri2 = new URI("/catalogue/phones?os=samsung");
+            URI uri3 = new URI("/stores/locations?zip=12345");
+
+
+            URI resolvedUri1 = baseURI.resolve(uri1);
+            URI resolvedUri2 = baseURI.resolve(uri2);
+            URI resolvedUri3 = baseURI.resolve(uri3);
+
+            URL url1 = resolvedUri1.toURL();
+            System.out.println("URL 1 = " + url1);
+
+            URL url2 = resolvedUri2.toURL();
+            System.out.println("URL 2 = " + url2);
+
+            URL url3 = resolvedUri3.toURL();
+            System.out.println("URL 3 = " + url3);
+
+            URI relativizedURI = baseURI.relativize(resolvedUri1);
+            URI relativizedURI2 = baseURI.relativize(resolvedUri2);
+            URI relativizedURI3 = baseURI.relativize(resolvedUri3);
+            System.out.println("Relativized URI = " + relativizedURI2);
+
+//            System.out.println("Scheme = " + uri.getScheme());
+//            System.out.println("Scheme-specific part = " + uri.getSchemeSpecificPart());
+//            System.out.println("Authority = " + uri.getAuthority());
+//            System.out.println("User info = " + uri.getUserInfo());
+//            System.out.println("Host = " + uri.getHost());
+//            System.out.println("Port = " + uri.getPort());
+//            System.out.println("Path = " + uri.getPath());
+//            System.out.println("Query = " + uri.getQuery());
+//            System.out.println("Fragment = " + uri.getFragment());
+
+       } catch (URISyntaxException e){
+            System.out.println(e.getMessage());
+        } catch (MalformedURLException e){
+            System.out.println("URL Malformed: " + e.getMessage());
+        } catch (IllegalArgumentException e){
+            System.out.println("IllegalArgumentException: " + e.getMessage());
+        }
+
+    }
+}
